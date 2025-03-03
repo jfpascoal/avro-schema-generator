@@ -27,7 +27,7 @@ class GenericConnector:
 class InvalidMapperException(Exception):
     def __init__(self, mapper: str, valid: tuple = ()):
         self.msg = f"Data type mapper not recognized {mapper}." \
-            + f"\nValid options: {valid}" if valid else ""
+                   + f"\nValid options: {valid}" if valid else ""
 
     def __str__(self):
         return f"ERROR {self.msg}"
