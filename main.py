@@ -10,9 +10,10 @@ from avro.generator import AvroGenerator
 
 # Supported connectors
 CONNECTORS_MAP = {
-   "sqlserver": SqlServerConnector,
+    "sqlserver": SqlServerConnector,
     "csv": CsvConnector
 }
+
 
 def parse_args() -> dict:
     """
