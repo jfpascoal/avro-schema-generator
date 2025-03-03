@@ -1,24 +1,32 @@
 import pyodbc
 
-from connectors.generic_connector import GenericConnector, InvalidMapperException
-from connectors.sql_server.type_mappers import DEBEZIUM_DATATYPE_MAP, JDBC_DATATYPE_MAP
 from avro.field import AvroField
 from avro.types import AvroDecimal
+from configuration import Configuration
+from connectors.generic_connector import GenericConnector, InvalidMapperException
+from connectors.sql_server.type_mappers import DEBEZIUM_DATATYPE_MAP, JDBC_DATATYPE_MAP
 
 
 class SqlServerConnector(GenericConnector):
     DRIVER = "{ODBC Driver 17 for SQL Server}"
+    DB_SYSTEM = 'sqlserver'
 
-    def __init__(self, server: str, database: str, mapper: str):
+    TYPE_MAPPER = {
+        DB_SYSTEM: {
+            "debezium": DEBEZIUM_DATATYPE_MAP,
+            "jdbc": JDBC_DATATYPE_MAP
+        }
+    }
+
+    def __init__(self, config: Configuration):
         super().__init__()
-        self._server = server
-        self._database = database
-        if mapper == "debezium":
-            self._mapper = DEBEZIUM_DATATYPE_MAP
-        elif mapper == "jdbc":
-            self._mapper = JDBC_DATATYPE_MAP
-        else:
-            raise InvalidMapperException(f"Data type mapper not recognized: {mapper}")
+
+        self._server = config.db_server
+        self._database = config.db_name
+        try:
+            self._mapper = self.TYPE_MAPPER[self.DB_SYSTEM][config.connector_mapper]
+        except KeyError as e:
+            raise InvalidMapperException(str(e))
 
     def __enter__(self):
         connection_string = (
@@ -33,7 +41,17 @@ class SqlServerConnector(GenericConnector):
     def __exit__(self, *args):
         self._connection.close()
 
-    def get_columns(self, table_name: str, db_schema: str, all_nullable: bool = False) -> list[AvroField]:
+    def get_columns(self, table: tuple[str], config: Configuration) -> list[AvroField]:
+        """
+        Generate AVRO definition of columns in the specified table.
+        :param table: Tuple with DB schema and name of table.
+        :param config: Configuration properties.
+        :return: List of AvroField instances corresponding to the columns in the specified table.
+        """
+        db_schema = table[0]
+        table_name = table[1]
+        all_nullable = config.avro_all_nullable
+
         columns_dict = {}
         cursor = self._connection.cursor()
         rows = cursor.columns(table=table_name, schema=db_schema)

@@ -1,8 +1,14 @@
 from avro.field import AvroField
+from configuration import Configuration
 
 
 class GenericConnector:
-    def __init__(self, **nargs):
+    """
+    Defines abstract Connector and methods.
+    """
+    TYPE_MAPPER = {}
+
+    def __init__(self):
         pass
 
     def __enter__(self):
@@ -11,10 +17,17 @@ class GenericConnector:
     def __exit__(self, *args):
         pass
 
-    def get_columns(self, **nargs) -> list[AvroField]:
+    def get_tables(self, config: Configuration) -> list[str]:
+        pass
+
+    def get_columns(self, table: tuple[str, str], config: Configuration) -> list[AvroField]:
         pass
 
 
 class InvalidMapperException(Exception):
-    pass
+    def __init__(self, mapper: str, valid: tuple = ()):
+        self.msg = f"Data type mapper not recognized {mapper}." \
+            + f"\nValid options: {valid}" if valid else ""
 
+    def __str__(self):
+        return f"ERROR {self.msg}"
