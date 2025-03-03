@@ -1,7 +1,7 @@
-from enum import StrEnum
+from enum import Enum
 
 
-class SqlServerTypes(StrEnum):
+class SqlServerTypes(Enum):
     BIGINT = "bigint"
     BINARY = "binary"
     BIT = "bit"
