@@ -30,7 +30,7 @@ class Configuration:
         self.db_system = props.get(ConfigProperties.DB_SYSTEM) or None
         self.db_server = props.get(ConfigProperties.DB_SERVER) or None
         self.db_name = props.get(ConfigProperties.DB_NAME) or None
-        self.db_schema = props.get(ConfigProperties.DB_SYSTEM) or None
+        self.db_schema = props.get(ConfigProperties.DB_SCHEMA) or None
         self.avro_namespace = props.get(ConfigProperties.NAMESPACE) or None
         self.avro_output_path = props.get(ConfigProperties.OUTPUT_DIR) or os.getcwd()
         self.avro_all_nullable = props.get(ConfigProperties.ALL_NULLABLE) or False
