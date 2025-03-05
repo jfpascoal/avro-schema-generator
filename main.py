@@ -6,7 +6,7 @@ import sys
 from configuration import Configuration, ConfigProperties
 from connectors.sql_server.connector import SqlServerConnector
 from connectors.csv.connector import CsvConnector
-from avro.generator import AvroGenerator
+from avro_tools.generator import AvroGenerator
 
 # Supported connectors
 CONNECTORS_MAP = {

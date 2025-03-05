@@ -1,4 +1,4 @@
-from avro.types import *
+from avro_tools.types import *
 from connectors.sql_server.data_types import SqlServerTypes
 
 

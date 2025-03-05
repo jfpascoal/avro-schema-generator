@@ -1,4 +1,4 @@
-from avro.types import AvroType
+from avro_tools.types import AvroType
 
 
 class AvroField:
