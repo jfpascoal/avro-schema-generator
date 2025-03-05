@@ -1,4 +1,4 @@
-from avro.field import AvroField
+from avro_tools.field import AvroField
 from configuration import Configuration
 
 
