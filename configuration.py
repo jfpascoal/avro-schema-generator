@@ -19,9 +19,14 @@ class ConfigProperties:
 class Configuration:
     _CONFIG_PATH = os.path.join(os.path.curdir, ".config")
 
-    def __init__(self, props: dict):
+    def __init__(self, props: dict | None = None):
         if not props:
             props = self.parse_config(self._CONFIG_PATH)
+
+        if not props.get(ConfigProperties.CONNECTOR) or not props.get(ConfigProperties.MAPPER):
+            raise InvalidConfigurationError(
+                [p for p in [ConfigProperties.CONNECTOR, ConfigProperties.MAPPER] if not props.get(p)]
+            )
 
         self.connector = props.get(ConfigProperties.CONNECTOR)
         self.connector_mapper = props.get(ConfigProperties.MAPPER)
@@ -33,7 +38,8 @@ class Configuration:
         self.db_schema = props.get(ConfigProperties.DB_SCHEMA) or None
         self.avro_namespace = props.get(ConfigProperties.NAMESPACE) or None
         self.avro_output_path = props.get(ConfigProperties.OUTPUT_DIR) or os.getcwd()
-        self.avro_all_nullable = props.get(ConfigProperties.ALL_NULLABLE) or False
+        self.avro_all_nullable = str(props.get(ConfigProperties.ALL_NULLABLE)).upper() in ['Y', 'T', 'YES', 'TRUE']\
+                                 or False
 
     @staticmethod
     def parse_config(path: str) -> dict:
@@ -42,3 +48,11 @@ class Configuration:
             parser.read_file(fh)
         config = parser['DEFAULT']
         return {k: config[k] or None for k in config}
+
+
+class InvalidConfigurationError(Exception):
+    def __init__(self, missing_properties: list[str]):
+        self.msg = f"Missing configuration property/ies: {', '.join(missing_properties)}."
+
+    def __str__(self):
+        return f"ERROR {self.msg}"
