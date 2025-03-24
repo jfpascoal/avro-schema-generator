@@ -1,0 +1,40 @@
+{
+    "type": "record",
+    "name": "ValidSchema",
+    "namespace": "com.test.avro.schema",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string"
+        },
+        {
+            "name": "dsc",
+            "type": "string"
+        },
+        {
+            "name": "val",
+            "type": [
+                "null",
+                "int"
+            ],
+            "default": 0
+        },
+        {
+            "name": "perc",
+            "type": [
+                "null",
+                {
+                    "type": "bytes",
+                    "logicalType": "decimal",
+                    "scale": 2,
+                    "precision": 4
+                }
+            ],
+            "default": 0.00
+        },
+        {
+            "name": "del",
+            "type": "boolean"
+        }
+    ]
+}

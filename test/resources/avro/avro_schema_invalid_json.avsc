@@ -1,0 +1,14 @@
+{
+    "type": "record",
+    "name": "InvalidJson",
+    "namespace": "com.test.avro.schema",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string"
+        },
+        {
+            "name": "dsc"
+            "type": "string"
+        }
+}
