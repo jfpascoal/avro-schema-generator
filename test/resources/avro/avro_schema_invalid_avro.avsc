@@ -1,0 +1,15 @@
+{
+    "type": "record",
+    "name": "InvalidAvro",
+    "namespace": "com.test.avro.schema",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string"
+        },
+        {
+            "name": "dsc",
+            "type": "error"
+        }
+    ]
+}
