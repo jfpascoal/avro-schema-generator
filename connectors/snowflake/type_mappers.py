@@ -1,4 +1,4 @@
-from avro_tools.types import *
+from avro_tools.avro_type import *
 from connectors.snowflake.data_types import SnowflakeTypes
 
 
