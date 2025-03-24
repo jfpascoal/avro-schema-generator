@@ -1,7 +1,7 @@
 import pyodbc
 
 from avro_tools.field import AvroField
-from avro_tools.types import AvroDecimal
+from avro_tools.avro_type import AvroDecimal
 from configuration import Configuration
 from connectors.generic_connector import GenericConnector, InvalidMapperException
 from connectors.sql_server.type_mappers import DEBEZIUM_DATATYPE_MAP, JDBC_DATATYPE_MAP
