@@ -1,7 +1,7 @@
 from csv import DictReader
 
 from avro_tools.field import AvroField
-from avro_tools.types import AvroDecimal
+from avro_tools.avro_type import AvroDecimal
 from configuration import Configuration
 from connectors.csv.column import Column
 from connectors.generic_connector import GenericConnector, InvalidMapperException
